@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class Rating
     {
@@ -11,5 +11,4 @@ namespace WebApi.Models
         public required Session Session { get; set; }
         public required Participant Participant { get; set; }
     }
-
 }

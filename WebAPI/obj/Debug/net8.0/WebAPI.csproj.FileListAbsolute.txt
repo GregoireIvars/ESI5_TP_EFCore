@@ -111,3 +111,4 @@ C:\Users\gregoire.ivars\Isitech\EntityFrameworkCore\WebAPI\obj\Debug\net8.0\refi
 C:\Users\gregoire.ivars\Isitech\EntityFrameworkCore\WebAPI\obj\Debug\net8.0\WebAPI.pdb
 C:\Users\gregoire.ivars\Isitech\EntityFrameworkCore\WebAPI\obj\Debug\net8.0\WebAPI.genruntimeconfig.cache
 C:\Users\gregoire.ivars\Isitech\EntityFrameworkCore\WebAPI\obj\Debug\net8.0\ref\WebAPI.dll
+C:\Users\gregoire.ivars\Isitech\EntityFrameworkCore\WebAPI\obj\Debug\net8.0\WebAPI.sourcelink.json

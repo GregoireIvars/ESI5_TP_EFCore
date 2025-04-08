@@ -1,28 +1,25 @@
 using Microsoft.EntityFrameworkCore;
-
-namespace WebApi.Data
+using WebAPI.Models;
+namespace WebAPI.Data
 {
-
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Event> Events { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Speaker> Speakers { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Session> Sessions { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<SessionSpeaker> SessionSpeakers { get; set; }
-        public DbSet<Speaker> Speakers { get; set; }
-        public DbSet<EventParticipant> EventParticipants { get; set; }
-
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<EventParticipant> EventParticipants { get; set; }
+        public DbSet<SessionSpeaker> SessionSpeakers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Relations Many-to-Many
+            // ----- EventParticipant (Many-to-Many) -----
             modelBuilder.Entity<EventParticipant>()
                 .HasKey(ep => new { ep.EventId, ep.ParticipantId });
 
@@ -36,6 +33,7 @@ namespace WebApi.Data
                 .WithMany(p => p.EventParticipants)
                 .HasForeignKey(ep => ep.ParticipantId);
 
+            // ----- SessionSpeaker (Many-to-Many) -----
             modelBuilder.Entity<SessionSpeaker>()
                 .HasKey(ss => new { ss.SessionId, ss.SpeakerId });
 
@@ -49,7 +47,7 @@ namespace WebApi.Data
                 .WithMany(s => s.SessionSpeakers)
                 .HasForeignKey(ss => ss.SpeakerId);
 
-            // Event
+            // ----- Event -----
             modelBuilder.Entity<Event>()
                 .Property(e => e.Title)
                 .IsRequired()
@@ -60,7 +58,16 @@ namespace WebApi.Data
                 .WithMany(l => l.Events)
                 .HasForeignKey(e => e.LocationId);
 
-            // Participant
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Events)
+                .HasForeignKey(e => e.CategoryId);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.Status)
+                .HasConversion<string>(); // Enregistre l'enum en string
+
+            // ----- Participant -----
             modelBuilder.Entity<Participant>()
                 .Property(p => p.Email)
                 .IsRequired()
@@ -70,7 +77,7 @@ namespace WebApi.Data
                 .HasIndex(p => p.Email)
                 .IsUnique();
 
-            // Session
+            // ----- Session -----
             modelBuilder.Entity<Session>()
                 .Property(s => s.Title)
                 .IsRequired()
@@ -86,13 +93,13 @@ namespace WebApi.Data
                 .WithMany(r => r.Sessions)
                 .HasForeignKey(s => s.RoomId);
 
-            // Room
+            // ----- Room -----
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Location)
                 .WithMany(l => l.Rooms)
                 .HasForeignKey(r => r.LocationId);
 
-            // Rating
+            // ----- Rating -----
             modelBuilder.Entity<Rating>()
                 .HasOne(r => r.Session)
                 .WithMany(s => s.Ratings)
@@ -103,11 +110,15 @@ namespace WebApi.Data
                 .WithMany(p => p.Ratings)
                 .HasForeignKey(r => r.ParticipantId);
 
-            // Unicité : Un participant ne peut noter qu'une fois une session
             modelBuilder.Entity<Rating>()
                 .HasIndex(r => new { r.SessionId, r.ParticipantId })
                 .IsUnique();
+
+            // ----- Category -----
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(50);
         }
     }
-
 }

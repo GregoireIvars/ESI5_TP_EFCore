@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class Location
     {
@@ -12,5 +12,5 @@ namespace WebApi.Models
         public required ICollection<Event> Events { get; set; }
         public required ICollection<Room> Rooms { get; set; }
     }
-
 }
+

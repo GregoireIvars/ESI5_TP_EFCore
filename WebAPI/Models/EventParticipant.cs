@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class EventParticipant
     {

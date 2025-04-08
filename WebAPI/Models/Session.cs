@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class Session
     {
@@ -14,5 +14,5 @@ namespace WebApi.Models
         public required ICollection<SessionSpeaker> SessionSpeakers { get; set; }
         public required ICollection<Rating> Ratings { get; set; }
     }
-
 }
+

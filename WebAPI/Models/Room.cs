@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class Room
     {
@@ -10,5 +10,5 @@ namespace WebApi.Models
 
         public required ICollection<Session> Sessions { get; set; }
     }
-
 }
+

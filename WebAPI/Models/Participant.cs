@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class Participant
     {
@@ -11,5 +11,4 @@ namespace WebApi.Models
         public required ICollection<EventParticipant> EventParticipants { get; set; }
         public required ICollection<Rating> Ratings { get; set; }
     }
-
 }

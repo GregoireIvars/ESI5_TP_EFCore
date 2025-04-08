@@ -1,4 +1,4 @@
-namespace WebApi.Models
+namespace WebAPI.Models
 {
     public class SessionSpeaker
     {
@@ -11,5 +11,5 @@ namespace WebApi.Models
         public required Session Session { get; set; }
         public required Speaker Speaker { get; set; }
     }
-
 }
+
