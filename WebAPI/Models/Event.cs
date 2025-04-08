@@ -11,12 +11,12 @@ namespace WebAPI.Models
         public EventStatus Status { get; set; }
 
         public int LocationId { get; set; }
-        public required Location Location { get; set; }
+        public Location Location { get; set; }
 
         public int? CategoryId { get; set; }
-        public required Category Category { get; set; }
+        public Category Category { get; set; }
 
-        public required ICollection<Session> Sessions { get; set; }
-        public required ICollection<EventParticipant> EventParticipants { get; set; }
+        public ICollection<Session> Sessions { get; set; }
+        public ICollection<EventParticipant> EventParticipants { get; set; }
     }
 }

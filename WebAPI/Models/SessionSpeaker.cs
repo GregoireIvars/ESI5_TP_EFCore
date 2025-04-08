@@ -8,8 +8,8 @@ namespace WebAPI.Models
         public DateTime RegistrationDate { get; set; }
         public DateTime? AttendanceDate { get; set; }
 
-        public required Session Session { get; set; }
-        public required Speaker Speaker { get; set; }
+        public  Session Session { get; set; }
+        public  Speaker Speaker { get; set; }
     }
 }
 

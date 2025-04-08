@@ -6,9 +6,10 @@ namespace WebAPI.Models
         public required string Name { get; set; }
         public int Capacity { get; set; }
         public int LocationId { get; set; }
-        public required Location Location { get; set; }
+        public  Location Location { get; set; }
 
-        public required ICollection<Session> Sessions { get; set; }
+        public  ICollection<Session> Sessions { get; set; }
     }
-}
+    
 
+}

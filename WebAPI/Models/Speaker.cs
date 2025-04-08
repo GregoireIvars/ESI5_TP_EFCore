@@ -9,7 +9,7 @@ namespace WebAPI.Models
         public required string Email { get; set; }
         public required string Company { get; set; }
 
-        public required ICollection<SessionSpeaker> SessionSpeakers { get; set; }
+        public  ICollection<SessionSpeaker> SessionSpeakers { get; set; }
     }
 }
 

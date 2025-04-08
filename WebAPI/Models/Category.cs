@@ -6,6 +6,6 @@ namespace WebAPI.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required ICollection<Event> Events { get; set; }
+        public  ICollection<Event> Events { get; set; }
     }
 }

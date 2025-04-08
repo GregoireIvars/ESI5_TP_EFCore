@@ -6,6 +6,7 @@ public enum EventStatus
     Published,
     Ongoing,
     Completed,
-    Cancelled
-}
+    Cancelled,
+    Upcoming
+    }
 }

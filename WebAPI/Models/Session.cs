@@ -9,10 +9,10 @@ namespace WebAPI.Models
         public DateTime EndDate { get; set; }
         public int EventId { get; set; }
         public int RoomId { get; set; }
-        public required Event Event { get; set; }
-        public required Room Room { get; set; }
-        public required ICollection<SessionSpeaker> SessionSpeakers { get; set; }
-        public required ICollection<Rating> Ratings { get; set; }
+        public  Event Event { get; set; }
+        public  Room Room { get; set; }
+        public  ICollection<SessionSpeaker> SessionSpeakers { get; set; }
+        public  ICollection<Rating> Ratings { get; set; }
     }
 }
 

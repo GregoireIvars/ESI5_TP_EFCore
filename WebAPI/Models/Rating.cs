@@ -8,7 +8,7 @@ namespace WebAPI.Models
         public int Score { get; set; }
         public required string Comments { get; set; }
 
-        public required Session Session { get; set; }
-        public required Participant Participant { get; set; }
+        public  Session Session { get; set; }
+        public  Participant Participant { get; set; }
     }
 }

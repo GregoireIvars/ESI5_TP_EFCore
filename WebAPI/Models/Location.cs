@@ -7,10 +7,10 @@ namespace WebAPI.Models
         public required string Address { get; set; }
         public required string City { get; set; }
         public required string Country { get; set; }
-        public required string Capacity { get; set; }
+        public required int Capacity { get; set; }
 
-        public required ICollection<Event> Events { get; set; }
-        public required ICollection<Room> Rooms { get; set; }
+        public  ICollection<Event> Events { get; set; }
+        public  ICollection<Room> Rooms { get; set; }
     }
 }
 
