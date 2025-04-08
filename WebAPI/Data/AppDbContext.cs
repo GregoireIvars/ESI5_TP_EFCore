@@ -18,6 +18,8 @@ namespace WebApi.Data
         public DbSet<Speaker> Speakers { get; set; }
         public DbSet<EventParticipant> EventParticipants { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Relations Many-to-Many

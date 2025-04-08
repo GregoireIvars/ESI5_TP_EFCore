@@ -1,4 +1,4 @@
-namespace WebApi.Data
+namespace WebApi.Models
 {
     public class Event
     {
@@ -15,6 +15,7 @@ namespace WebApi.Data
         public required ICollection<Session> Sessions { get; set; }
         public int LocationId { get; set; }
         public required ICollection<EventParticipant> EventParticipants { get; set; }
+        
 
     }
 
