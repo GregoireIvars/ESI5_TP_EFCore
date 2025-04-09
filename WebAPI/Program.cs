@@ -27,7 +27,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("DATABASE");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Une fois tous les services configurés, construire l'application
 var app = builder.Build();
 
