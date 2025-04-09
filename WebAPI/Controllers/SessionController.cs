@@ -1,41 +1,53 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class SessionController : ControllerBase
+    public class SessionsController : ControllerBase
     {
-        private static readonly string[] Summaries = new[] 
-        { 
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" 
-        };
+        private readonly AppDbContext _context;
+        public SessionsController(AppDbContext context) => _context = context;
 
-        private readonly ILogger<SessionController> _logger;
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Session>>> Get() => await _context.Sessions.ToListAsync();
 
-        public SessionController(ILogger<SessionController> logger)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Session>> Get(int id)
         {
-            _logger = logger;
+            var entity = await _context.Sessions.FindAsync(id);
+            return entity == null ? NotFound() : Ok(entity);
         }
 
-        [HttpGet(Name = "GetSession")]
-        public IEnumerable<SessionDto> Get()
+        [HttpPost]
+        public async Task<ActionResult<Session>> Post(Session model)
         {
-            _logger.LogInformation("Fetching categories...");
-            return Enumerable.Range(1, 5).Select(index => new SessionDto
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            });
+            _context.Sessions.Add(model);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { id = model.Id }, model);
         }
 
-        public class SessionDto
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Session model)
         {
-            public DateOnly Date { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            if (id != model.Id) return BadRequest();
+            _context.Entry(model).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var entity = await _context.Sessions.FindAsync(id);
+            if (entity == null) return NotFound();
+            _context.Sessions.Remove(entity);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
+
 }

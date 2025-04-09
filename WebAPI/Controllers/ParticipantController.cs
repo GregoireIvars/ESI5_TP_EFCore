@@ -1,41 +1,52 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
+using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
+using WebAPI.Models;
 namespace WebAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class ParticipantController : ControllerBase
+    public class ParticipantsController : ControllerBase
     {
-        private static readonly string[] Summaries = new[] 
-        { 
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" 
-        };
+        private readonly AppDbContext _context;
+        public ParticipantsController(AppDbContext context) => _context = context;
 
-        private readonly ILogger<ParticipantController> _logger;
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Participant>>> Get() => await _context.Participants.ToListAsync();
 
-        public ParticipantController(ILogger<ParticipantController> logger)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Participant>> Get(int id)
         {
-            _logger = logger;
+            var entity = await _context.Participants.FindAsync(id);
+            return entity == null ? NotFound() : Ok(entity);
         }
 
-        [HttpGet(Name = "GetParticipant")]
-        public IEnumerable<ParticipantDto> Get()
+        [HttpPost]
+        public async Task<ActionResult<Participant>> Post(Participant model)
         {
-            _logger.LogInformation("Fetching categories...");
-            return Enumerable.Range(1, 5).Select(index => new ParticipantDto
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            });
+            _context.Participants.Add(model);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { id = model.Id }, model);
         }
 
-        public class ParticipantDto
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Participant model)
         {
-            public DateOnly Date { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            if (id != model.Id) return BadRequest();
+            _context.Entry(model).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var entity = await _context.Participants.FindAsync(id);
+            if (entity == null) return NotFound();
+            _context.Participants.Remove(entity);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
+
 }
